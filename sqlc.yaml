@@ -1,0 +1,13 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "/sql/queries"
+    schema: "/sql/migrations"
+    gen:
+      go:
+        package: "dbal"
+        sql_package: "pgx/v5"
+        out: "internal/dbal/"
+        emit_db_tags: true
+        emit_json_tags: true
+        emit_empty_slices: true
