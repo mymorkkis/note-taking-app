@@ -31,6 +31,7 @@ func (app *application) routes() http.Handler {
 	r.Use(middleware.AllowContentType("application/json"))
 
 	r.Route("/notes", func(r chi.Router) {
+		r.Get("/", app.listNotes)
 		r.Post("/", app.createNote)
 		r.Route("/{noteID}", func(r chi.Router) {
 			r.Use(app.NoteCtx)

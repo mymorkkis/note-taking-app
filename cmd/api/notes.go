@@ -69,3 +69,24 @@ func (app *application) createNote(w http.ResponseWriter, r *http.Request) {
 
 	serveJSON(w, r, http.StatusCreated, note, app.systemInfo, headers)
 }
+
+func (app *application) listNotes(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Limit  int32 `json:"limit"`
+		Offset int32 `json:"offset"`
+	}
+
+	err := readJSON(w, r, &input)
+	if err != nil {
+		app.errorResponse(w, r, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	notes, err := app.queries.ListNotes(r.Context(), dbal.ListNotesParams(input))
+	if err != nil {
+		app.internalServerError(w, r, err.Error())
+		return
+	}
+
+	serveJSON(w, r, http.StatusOK, notes, app.systemInfo, nil)
+}
