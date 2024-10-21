@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   notes_api:
     container_name: notes_api
